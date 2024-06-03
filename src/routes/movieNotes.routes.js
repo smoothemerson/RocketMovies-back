@@ -7,7 +7,7 @@ const movie_notesRoutes = Router()
 
 const movieNotesController = new MovieNotesController()
 
-notesRoutes.use(ensureAuthenticated)
+movie_notesRoutes.use(ensureAuthenticated)
 
 movie_notesRoutes.post("/", movieNotesController.create)
 movie_notesRoutes.get("/:id", movieNotesController.show)
