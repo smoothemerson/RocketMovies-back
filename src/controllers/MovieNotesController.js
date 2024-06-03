@@ -76,7 +76,7 @@ class MovieNotesController {
     }
 
     const userMovieTags = await knex("movie_tags").where({ user_id })
-    const movieNotesWithMovieTags = movie_notes.map(movie_notes => {
+    const movieNotesWithMovieTags = movie_notes.map(movie_note => {
       const movieNoteMovieTags = userMovieTags.filter(movieTag => movieTag.note_id === movie_note.id)
 
       return {
