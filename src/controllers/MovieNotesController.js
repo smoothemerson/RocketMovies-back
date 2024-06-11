@@ -4,15 +4,12 @@ class MovieNotesController {
   async create(request, response) {
     const { title, description, rating, tags } = request.body
     const user_id = request.user.id
-    const moment = require("moment")
-    const created_at = moment().format('DD-MM-YYYY HH:mm:ss')
 
     const [note_id] = await knex("movie_notes").insert({
       title,
       description,
       rating,
-      user_id,
-      created_at,
+      user_id
     })
 
     const tagsInsert = tags.map(name => {
@@ -22,8 +19,6 @@ class MovieNotesController {
         user_id
       }
     })
-
-
 
     await knex("movie_tags").insert(tagsInsert)
 
