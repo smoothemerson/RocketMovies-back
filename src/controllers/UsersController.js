@@ -1,6 +1,7 @@
 const { hash, compare } = require("bcryptjs")
 const AppError = require("../utils/AppError")
 const sqliteConnection = require("../database/sqlite")
+const moment = require('moment-timezone');
 
 class UsersController {
   async create(request, response) {
@@ -15,9 +16,11 @@ class UsersController {
 
     const hashedPassword = await hash(password, 8)
 
+    const now = moment().tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss');
+
     await database.run(
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [name, email, hashedPassword]
+      "INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
+      [name, email, hashedPassword, now, now]
     )
 
     return response.status(201).json()
@@ -56,15 +59,16 @@ class UsersController {
 
       user.password = await hash(password, parseInt(8, 10))
     }
+    const now = moment().tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss');
 
     await database.run(`
       UPDATE users SET 
       name = ?,
       email = ?,
       password = ?,
-      updated_at = DATETIME('now', 'localtime')
+      updated_at = ?
       WHERE id = ?`,
-      [user.name, user.email, user.password, user_id]
+      [user.name, user.email, user.password, now, user_id]
       )
 
       return response.json()

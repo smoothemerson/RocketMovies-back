@@ -5,11 +5,15 @@ class MovieNotesController {
     const { title, description, rating, tags } = request.body
     const user_id = request.user.id
 
+    const now = moment().tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss');
+
     const [note_id] = await knex("movie_notes").insert({
       title,
       description,
       rating,
-      user_id
+      user_id,
+      created_at: now,
+      updated_at: now,
     })
 
     const tagsInsert = tags.map(name => {
