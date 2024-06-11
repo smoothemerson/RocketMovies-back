@@ -1,11 +1,12 @@
 const knex = require("../database/knex")
+const moment = require('moment-timezone');
 
 class MovieNotesController {
   async create(request, response) {
     const { title, description, rating, tags } = request.body
     const user_id = request.user.id
 
-    const now = moment().tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss');
+    const now = moment().tz('America/Sao_Paulo').format('DD-MM-YYYY HH:mm:ss');
 
     const [note_id] = await knex("movie_notes").insert({
       title,

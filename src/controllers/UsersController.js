@@ -16,7 +16,7 @@ class UsersController {
 
     const hashedPassword = await hash(password, 8)
 
-    const now = moment().tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss');
+    const now = moment().tz('America/Sao_Paulo').format('DD-MM-YYYY HH:mm:ss');
 
     await database.run(
       "INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
